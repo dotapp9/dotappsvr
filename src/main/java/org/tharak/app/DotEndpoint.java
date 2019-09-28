@@ -20,6 +20,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -37,10 +38,12 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class DotEndpoint {
 	private DataSourceMgr mgr;
+	@CrossOrigin(origins = "*", allowedHeaders = "*")
 	@RequestMapping(value = Constants.SERVICE_PATH, consumes=MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
 	public List<Map<String, String>> doDelegate(Principal principal, @PathVariable String version, @PathVariable String serviceId, @RequestHeader Map<String, String> rqHeaders, @RequestBody Map<String, String> requestBody, HttpSession httpSession)throws IOException {
 		return doBodyDelegate(principal, serviceId, rqHeaders, requestBody, httpSession);
 	}
+	@CrossOrigin(origins = "*", allowedHeaders = "*")
 	@GetMapping(path = Constants.HEALTH_PATH, produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<String> doHealth(Principal principal, @PathVariable String version, HttpServletRequest req)throws IOException {
 		return new ResponseEntity<String>("Ready", HttpStatus.OK);
